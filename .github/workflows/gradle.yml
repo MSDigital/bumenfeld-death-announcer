@@ -1,15 +1,13 @@
 name: Gradle CI Template
 
 # Uncomment and adjust the following block when you turn this into a live project:
-# on:
-#   push:
-#     branches:
-#       - master
-#   pull_request:
-#     branches:
-#       - master
 on:
-  workflow_dispatch: {}
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:

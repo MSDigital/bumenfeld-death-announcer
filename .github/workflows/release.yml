@@ -1,11 +1,9 @@
 name: Release Template
 
 # Uncomment and adjust the following block when you turn this into a live project:
-# on:
-#   release:
-#     types: [published]
 on:
-  workflow_dispatch: {}
+  release:
+    types: [published]
 
 permissions:
   contents: write
