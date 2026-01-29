@@ -36,7 +36,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build release with Gradle
-        run: ./gradlew --no-daemon clean release
+        run: ./gradlew --no-daemon -PlocalVersion=${{ github.ref_name }} clean release
         env:
           GRADLE_OPTS: -Dorg.gradle.daemon=false
 
