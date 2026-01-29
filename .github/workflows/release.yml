@@ -29,11 +29,11 @@ jobs:
           java-version: 25
           cache: gradle
 
-      - name: Ensure Gradle wrapper executable
-        run: chmod +x gradlew
-
       - name: Reset to tag commit
         run: git reset --hard ${{ github.sha }}
+
+      - name: Ensure Gradle wrapper executable
+        run: chmod +x gradlew
 
       - name: Build release with Gradle
         run: ./gradlew --no-daemon clean release
