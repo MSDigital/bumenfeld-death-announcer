@@ -15,6 +15,7 @@ public final class DeathAnnouncer extends JavaPlugin {
     private static final Logger LOGGER = Logger.getLogger(DeathAnnouncer.class.getName());
     private DeathAnnouncementSystem deathAnnouncementSystem;
     private LocalizationManager localizationManager;
+    private DeathAnnouncerConfig currentConfig;
 
     public DeathAnnouncer(JavaPluginInit init) {
         super(init);
@@ -27,10 +28,11 @@ public final class DeathAnnouncer extends JavaPlugin {
         DeathAnnouncerConfig config = DeathAnnouncerConfig.load(dataDirectory);
         localizationManager = new LocalizationManager(dataDirectory);
         LocalizationBundle bundle = localizationManager.load(config.getLanguage());
-        deathAnnouncementSystem = new DeathAnnouncementSystem(bundle);
+        deathAnnouncementSystem = new DeathAnnouncementSystem(bundle, config.areNotificationsEnabled(),
+            config.areChatNotificationsEnabled());
+        currentConfig = config;
         getEntityStoreRegistry().registerSystem(deathAnnouncementSystem);
-        getCommandRegistry().registerCommand(new DeathNotificationCommand(deathAnnouncementSystem));
-        getCommandRegistry().registerCommand(new DeathAnnouncerReloadCommand(this));
+        getCommandRegistry().registerCommand(new DeathNotificationCommand(this, deathAnnouncementSystem));
     }
 
     private void ensureDefaultData(Path dataDirectory) {
@@ -71,11 +73,18 @@ public final class DeathAnnouncer extends JavaPlugin {
         DeathAnnouncerConfig config = DeathAnnouncerConfig.load(getDataDirectory());
         LocalizationBundle bundle = localizationManager.load(config.getLanguage());
         deathAnnouncementSystem.updateLocalizationBundle(bundle);
+        deathAnnouncementSystem.setNotificationsEnabled(config.areNotificationsEnabled());
+        deathAnnouncementSystem.setChatNotificationsEnabled(config.areChatNotificationsEnabled());
+        currentConfig = config;
         String feedback = String.format("Death announcer configuration reloaded (language=%s)", config.getLanguage());
         Message message = Message.raw(feedback);
         if (sender != null) {
             sender.sendMessage(message);
         }
         LOGGER.info(feedback);
+    }
+
+    public DeathAnnouncerConfig getCurrentConfig() {
+        return currentConfig;
     }
 }

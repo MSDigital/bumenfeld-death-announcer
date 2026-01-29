@@ -10,10 +10,12 @@ import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
+import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.protocol.ItemWithAllMetadata;
 import com.hypixel.hytale.protocol.packets.interface_.NotificationStyle;
+import java.awt.Color;
 
 import java.util.List;
 import java.util.Locale;
@@ -43,9 +45,13 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
     );
 
     private volatile LocalizationBundle localizationBundle;
+    private volatile boolean notificationsEnabled;
+    private volatile boolean chatNotificationsEnabled;
 
-    public DeathAnnouncementSystem(LocalizationBundle localizationBundle) {
+    public DeathAnnouncementSystem(LocalizationBundle localizationBundle, boolean notificationsEnabled, boolean chatNotificationsEnabled) {
         this.localizationBundle = Objects.requireNonNull(localizationBundle, "localizationBundle");
+        this.notificationsEnabled = notificationsEnabled;
+        this.chatNotificationsEnabled = chatNotificationsEnabled;
     }
 
     @Override
@@ -71,27 +77,16 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
         Message subtitle = Message.raw(announcement.subtitle());
 
         logDeath(player, causeName);
-        sendPlayerChat(player, causeName);
 
-        NotificationUtil.sendNotificationToUniverse(
-            title,
-            subtitle,
-            null,
-            resolveNotificationIcon(causeName),
-            NotificationStyle.Danger
-        );
+        sendNotification(causeName, subtitle, title);
+        broadcastDeathChat(announcement.subtitle());
     }
     public CompletableFuture<Void> triggerNotification(String causeName, String playerName) {
         DeathAnnouncement announcement = pickAnnouncement(playerName, causeName);
         Message title = Message.raw(announcement.title());
         Message subtitle = Message.raw(announcement.subtitle());
-        NotificationUtil.sendNotificationToUniverse(
-            title,
-            subtitle,
-            null,
-            resolveNotificationIcon(causeName),
-            NotificationStyle.Danger
-        );
+        sendNotification(causeName, subtitle, title);
+        broadcastDeathChat(announcement.subtitle());
         return CompletableFuture.completedFuture(null);
     }
 
@@ -211,13 +206,43 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
         LOGGER.info(String.format("Player %s died (%s)", player.getDisplayName(), causeName));
     }
 
-    private static void sendPlayerChat(Player player, String causeName) {
-        String chatLine = String.format("[DeathLog] %s -> %s", player.getDisplayName(), causeName);
-        player.sendMessage(Message.raw(chatLine));
+    private void sendNotification(String causeName, Message notificationTitle, Message notificationSubtitle) {
+        if (!notificationsEnabled) {
+            return;
+        }
+
+        NotificationUtil.sendNotificationToUniverse(
+            notificationTitle,
+            notificationSubtitle,
+            null,
+            resolveNotificationIcon(causeName),
+            NotificationStyle.Danger
+        );
     }
 
     public void updateLocalizationBundle(LocalizationBundle newBundle) {
         this.localizationBundle = Objects.requireNonNull(newBundle, "newBundle");
+    }
+
+    public void setNotificationsEnabled(boolean enabled) {
+        this.notificationsEnabled = enabled;
+    }
+
+    private void broadcastDeathChat(String text) {
+        if (!chatNotificationsEnabled) {
+            return;
+        }
+
+        Message header = Message
+            .raw("[DEATH] ")
+            .color(new Color(255, 60, 60))
+            .bold(true);
+        Message body = Message.raw(text);
+        Universe.get().sendMessage(Message.empty().insertAll(header, body));
+    }
+
+    public void setChatNotificationsEnabled(boolean enabled) {
+        this.chatNotificationsEnabled = enabled;
     }
 
     private record DeathAnnouncement(String title, String subtitle) {

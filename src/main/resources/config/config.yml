@@ -1,2 +1,4 @@
 # Configuration for the death announcer plugin.
 language: en
+notifications: true
+chat-notifications: true
