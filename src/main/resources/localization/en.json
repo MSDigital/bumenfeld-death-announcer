@@ -1,0 +1,76 @@
+{
+  "language": "en",
+  "death-announcer": {
+    "titles": [
+      "RIP {player}",
+      "{player} died"
+    ],
+    "generic": [
+      "{player} tested gravity. Gravity won.",
+      "{player} found the edge of skill.",
+      "{player} is now a cautionary tale.",
+      "{player} went out in style.",
+      "{player} did not read the safety manual."
+    ],
+    "fall": [
+      "{player} tried to fly. It did not stick.",
+      "{player} believed in levitation. Reality disagreed.",
+      "{player} forgot the landing part."
+    ],
+    "fire": [
+      "{player} discovered fire. It was mutual.",
+      "{player} got a little too warm.",
+      "{player} is now well done."
+    ],
+    "lava": [
+      "{player} took a lava bath.",
+      "{player} learned lava is not a hot tub.",
+      "{player} went for a molten swim."
+    ],
+    "drown": [
+      "{player} forgot to breathe.",
+      "{player} tried to drink the ocean.",
+      "{player} found the deep end."
+    ],
+    "void": [
+      "{player} fell out of existence.",
+      "{player} explored the void. There was nothing.",
+      "{player} is now in another dimension."
+    ],
+    "explosion": [
+      "{player} went out with a bang.",
+      "{player} thought it was a harmless sparkle.",
+      "{player} mistook TNT for confetti."
+    ],
+    "projectile": [
+      "{player} caught a projectile with their face.",
+      "{player} underestimated ranged combat.",
+      "{player} zigged when they should have zagged."
+    ],
+    "melee": [
+      "{player} lost a close encounter.",
+      "{player} took a hit they did not return.",
+      "{player} picked the wrong fight."
+    ],
+    "poison": [
+      "{player} was not immune to poison.",
+      "{player} should not have tasted that.",
+      "{player} learned that green is not always good."
+    ],
+    "suffocation": [
+      "{player} forgot how walls work.",
+      "{player} became one with the terrain.",
+      "{player} tried to live inside a block."
+    ],
+    "freeze": [
+      "{player} turned into a popsicle.",
+      "{player} lost a battle with the cold.",
+      "{player} should have brought a coat."
+    ],
+    "starvation": [
+      "{player} skipped lunch and everything after.",
+      "{player} ran out of snacks.",
+      "{player} learned that hunger is lethal."
+    ]
+  }
+}

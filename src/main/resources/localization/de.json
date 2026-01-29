@@ -1,0 +1,76 @@
+{
+  "language": "de",
+  "death-announcer": {
+    "titles": [
+      "RIP {player}",
+      "{player} ist gestorben"
+    ],
+    "generic": [
+      "{player} testete die Schwerkraft. Sie gewann.",
+      "{player} fand die Grenze des Koennens.",
+      "{player} ist jetzt eine Warnung.",
+      "{player} ging mit Stil.",
+      "{player} las das Sicherheitsblatt nicht."
+    ],
+    "fall": [
+      "{player} wollte fliegen. Hat nicht geklappt.",
+      "{player} glaubte an Schweben. Die Realitaet nicht.",
+      "{player} vergass den Landeteil."
+    ],
+    "fire": [
+      "{player} entdeckte Feuer. Es war gegenseitig.",
+      "{player} wurde etwas zu warm.",
+      "{player} ist jetzt durchgebraten."
+    ],
+    "lava": [
+      "{player} nahm ein Lavabad.",
+      "{player} merkte: Lava ist kein Whirlpool.",
+      "{player} schwamm im Schmelz."
+    ],
+    "drown": [
+      "{player} vergass zu atmen.",
+      "{player} versuchte das Meer zu trinken.",
+      "{player} fand das tiefe Ende."
+    ],
+    "void": [
+      "{player} fiel aus der Existenz.",
+      "{player} erforschte das Nichts.",
+      "{player} ist jetzt woanders."
+    ],
+    "explosion": [
+      "{player} ging mit einem Knall.",
+      "{player} hielt es fuer Funken.",
+      "{player} verwechselte TNT mit Konfetti."
+    ],
+    "projectile": [
+      "{player} fing ein Projektil mit dem Gesicht.",
+      "{player} unterschaetzte Fernkampf.",
+      "{player} wich in die falsche Richtung aus."
+    ],
+    "melee": [
+      "{player} verlor einen Nahkampf.",
+      "{player} nahm einen Treffer, ohne zu kontern.",
+      "{player} suchte den falschen Streit."
+    ],
+    "poison": [
+      "{player} war nicht immun gegen Gift.",
+      "{player} haette das nicht probieren sollen.",
+      "{player} lernte: Gruen ist nicht immer gut."
+    ],
+    "suffocation": [
+      "{player} vergass, wie Waende funktionieren.",
+      "{player} wurde eins mit dem Block.",
+      "{player} wollte im Block wohnen."
+    ],
+    "freeze": [
+      "{player} wurde zum Eis am Stiel.",
+      "{player} verlor gegen die Kaelte.",
+      "{player} haette eine Jacke gebraucht."
+    ],
+    "starvation": [
+      "{player} ließ das Essen aus. Fuer immer.",
+      "{player} ging die Verpflegung aus.",
+      "{player} lernte: Hunger ist toedlich."
+    ]
+  }
+}
