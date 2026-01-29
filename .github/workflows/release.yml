@@ -1,4 +1,4 @@
-name: Release Template
+name: Release Build
 
 # Uncomment and adjust the following block when you turn this into a live project:
 on:
