@@ -16,7 +16,7 @@ Group {
 
     Label #DeathTitle {
       Text: "DEATH";
-      Style: (HorizontalAlignment: Center, VerticalAlignment: Center, FontSize: 28, Alignment: Center, TextColor: #dd0403, RenderBold: true);
+      Style: (FontSize: 28, Alignment: Center, TextColor: #dd0403, RenderBold: true);
     }
 
     Label #DeathSubtitle {
