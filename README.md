@@ -1,4 +1,4 @@
-# Bumenfeld Death Announcer
+﻿# Bumenfeld Death Announcer
 
 [![Gradle CI](https://github.com/msdigital/bumenfeld-death-announcer/actions/workflows/gradle.yml/badge.svg)](https://github.com/msdigital/bumenfeld-death-announcer/actions/workflows/gradle.yml)
 [![Release](https://github.com/msdigital/bumenfeld-death-announcer/actions/workflows/release.yml/badge.svg)](https://github.com/msdigital/bumenfeld-death-announcer/actions/workflows/release.yml)
@@ -8,12 +8,12 @@ Bumenfeld Death Announcer reacts to every player death, matches the damage sourc
 ## 1. Description & commands
 
 ### Core features
-- **Localized event titles** – Death causes map to categories (`fire`, `fall`, `projectile`, etc.) and pull jokes/titles from the configured locale.
-- **Styled chat fallback** – Every death also publishes the subtitle in chat with a bold red `[DEATH]` prefix so the message stands out.
-- **Icon support** – Notifications include Hytale `ItemStack` icons (the same assets the server already ships) to visually signal what killed the player.
-- **Config toggles** – `config.yml` exposes `language`, `notifications`, and `chat-notifications` so you can disable the HUD alert or chat message independently.
-- **Admin tooling** – `/deathnotification` is the command hub:
-  - `/deathnotification config <option> <value>` updates `language`, `notifications`, or `chat-notifications`, saves the change to `config.yml`, and reloads the plugin.
+- **Localized event titles** - Death causes map to categories (`fire`, `fall`, `projectile`, etc.) and pull jokes/titles from the configured locale.
+- **Styled chat fallback** - Every death also publishes the subtitle in chat with a bold red `[DEATH]` prefix so the message stands out.
+- **Custom icons** - HUD and notifications can use PNG icons shipped in `Common/UI/Custom/icons`.
+- **Config toggles** - `config.yml` exposes `language`, `notifications`, `chat-notifications`, and `hud-notifications` so you can disable each channel independently.
+- **Admin tooling** - `/deathnotification` is the command hub:
+  - `/deathnotification config <option> <value>` updates `language`, `notifications`, `chat-notifications`, `hud-notifications`, or `hud-display-seconds`, saves the change to `config.yml`, and reloads the plugin.
   - `/deathnotification reload` re-reads configuration/localization without restarting the server.
   - `/deathnotification test` simulates every death cause (2 seconds apart) so you can preview titles, icons, and chat output.
 
@@ -34,13 +34,16 @@ Bumenfeld Death Announcer reacts to every player death, matches the damage sourc
 language: en              # built-in locales: en/de, add new {code}.json under localization/
 notifications: true       # enable/disable HUD event title notifications
 chat-notifications: true  # enable/disable the red [DEATH] chat message
+hud-notifications: true   # enable/disable the custom HUD panel
+hud-display-seconds: 4    # how long the HUD stays visible
 ```
-Settings modified through `/deathnotification config …` are persisted automatically.
+Settings modified through `/deathnotification config ...` are persisted automatically.
 
 ## 3. Localization & assets
 - Files live under `src/main/resources/localization/` and are copied to `mods/.../localization/` on first run, so servers can override them.
 - Each JSON file contains a `titles` pool plus per-cause arrays (`fire`, `lava`, `melee`, etc.). Add custom jokes by creating new locale files with the same structure and pointing `language` to them.
-- Icon identifiers reference Hytale’s `ui/icons` assets via `ItemStack`, so feel free to expand `DeathAnnouncementSystem.ICONS` if you want custom visuals for new causes.
+- Localization files are refreshed automatically when the plugin build version changes, so bundled updates propagate to servers.
+- HUD/notification icons live at `src/main/resources/Common/UI/Custom/icons` and are referenced by filename in code.
 
 ## 4. Build & release
 - `appJar` packages the plugin and, when `fatJar=true`, bundles runtime dependencies (toggle with `-PfatJar=false` for a thin jar).
@@ -50,5 +53,5 @@ Settings modified through `/deathnotification config …` are persisted automati
 
 ## 5. Development notes
 1. The plugin auto-creates `config.yml` and localization overrides inside the data directory, making it easy to tweak strings without rebuilding.
-2. `/deathnotification test` is useful for QA—watch the HUD and chat output cycle through every cause every 2 seconds.
+2. `/deathnotification test` is useful for QA - watch the HUD and chat output cycle through every cause every 2 seconds.
 3. Keep translation files synchronized and update `config.yml` defaults when adding new options so server operators have working templates.
