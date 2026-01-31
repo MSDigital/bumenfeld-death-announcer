@@ -2,3 +2,5 @@
 language: en
 notifications: true
 chat-notifications: true
+hud-display-seconds: 10
+hud-notifications: true

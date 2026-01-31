@@ -45,6 +45,7 @@ Settings modified through `/deathnotification config …` are persisted automati
 ## 4. Build & release
 - `appJar` packages the plugin and, when `fatJar=true`, bundles runtime dependencies (toggle with `-PfatJar=false` for a thin jar).
 - `./gradlew build` still compiles the code before producing the artifact; `./gradlew release` hooks into the release workflow that uploads artifacts to GitHub Releases.
+- Add `-PdeployOutputPath=/absolute/path/to/server/mods` to automatically copy the freshly built `/build/libs/*.jar` artifact to another location (the copy happens after `build`/`assemble`/`release` and skips when the property is absent).
 - Version metadata (ID/timestamp/commit) is injected during `processResources`, so release builds contain provenance.
 
 ## 5. Development notes

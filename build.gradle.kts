@@ -222,6 +222,26 @@ val appJar = tasks.register<Jar>("appJar") {
     }
 }
 
+tasks.named<Copy>("processResources") {
+    // UI assets are loaded from resources/Common/UI/Custom as documented.
+}
+
+val deployOutputPath = providers.gradleProperty("deployOutputPath").orNull?.takeIf { it.isNotBlank() }
+val fallbackDeployDirectory = layout.buildDirectory.dir("deploy").get().asFile
+
+val deployJar = tasks.register<Copy>("deployJar") {
+    group = "build"
+    description = "Copy the packaged plugin jar to the directory provided by -PdeployOutputPath."
+    dependsOn(appJar)
+    onlyIf { deployOutputPath != null }
+    from(appJar.flatMap { it.archiveFile })
+    into(deployOutputPath?.let(::file) ?: fallbackDeployDirectory)
+    doFirst {
+        val jarFile = appJar.get().archiveFile.get().asFile
+        logger.lifecycle("Copying {} → {}", jarFile.absolutePath, deployOutputPath ?: fallbackDeployDirectory)
+    }
+}
+
 tasks.named("build") {
     dependsOn(appJar)
 }
@@ -232,6 +252,12 @@ tasks.register("release") {
 
 tasks.named("assemble") {
     dependsOn(appJar)
+}
+
+listOf("build", "release", "assemble").forEach { taskName ->
+    tasks.named(taskName) {
+        dependsOn(deployJar)
+    }
 }
 tasks.named("jar") {
     enabled = false
