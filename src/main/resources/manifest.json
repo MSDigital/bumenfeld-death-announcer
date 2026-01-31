@@ -13,7 +13,7 @@
   "Dependencies": {},
   "OptionalDependencies": {},
   "DisabledByDefault": false,
-  "IncludesAssetPack": false,
+  "IncludesAssetPack": true,
   "Main": "${plugin_main_entrypoint}",
   "Build": {
     "Id": "${build_id}",

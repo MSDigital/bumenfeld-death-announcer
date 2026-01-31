@@ -19,7 +19,13 @@ import java.util.concurrent.TimeUnit;
 
 public final class DeathNotificationCommand extends AbstractCommand {
     private static final String ADMIN_PERMISSION = "com.bumenfeld.deathnotification.admin";
-    private static final Set<String> CONFIG_OPTIONS = Set.of("language", "notifications", "chat-notifications");
+    private static final Set<String> CONFIG_OPTIONS = Set.of(
+        "language",
+        "notifications",
+        "chat-notifications",
+        "hud-display-seconds",
+        "hud-notifications"
+    );
 
     private final DeathAnnouncer announcer;
     private final DeathAnnouncementSystem announcementSystem;
@@ -52,7 +58,7 @@ public final class DeathNotificationCommand extends AbstractCommand {
 
         private ConfigSubCommand() {
             super("config", "Adjust death notification configuration values");
-            optionArg = withRequiredArg("option", "Config option (language/notifications/chat-notifications)",
+            optionArg = withRequiredArg("option", "Config option (language/notifications/chat-notifications/hud-display-seconds/hud-notifications)",
                 ArgTypes.STRING);
             valueArg = withRequiredArg("value", "New value for the option", ArgTypes.STRING);
         }
@@ -98,6 +104,22 @@ public final class DeathNotificationCommand extends AbstractCommand {
                     }
                     yield current.withChatNotifications(flag);
                 }
+                case "hud-display-seconds" -> {
+                    Long seconds = parseLong(value);
+                    if (seconds == null || seconds < 1) {
+                        context.sendMessage(Message.raw("Expected a number >= 1 for hud-display-seconds."));
+                        yield null;
+                    }
+                    yield current.withHudDisplaySeconds(seconds);
+                }
+                case "hud-notifications" -> {
+                    Boolean flag = parseBoolean(value);
+                    if (flag == null) {
+                        context.sendMessage(Message.raw("Expected true/false for hud-notifications."));
+                        yield null;
+                    }
+                    yield current.withHudNotifications(flag);
+                }
                 default -> null;
             };
 
@@ -127,6 +149,17 @@ public final class DeathNotificationCommand extends AbstractCommand {
                 case "false", "no", "n", "0", "off" -> false;
                 default -> null;
             };
+        }
+
+        private Long parseLong(String value) {
+            if (value == null) {
+                return null;
+            }
+            try {
+                return Long.parseLong(value.trim());
+            } catch (NumberFormatException ex) {
+                return null;
+            }
         }
     }
 

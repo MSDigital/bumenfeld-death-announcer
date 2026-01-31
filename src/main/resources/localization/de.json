@@ -12,6 +12,11 @@
       "{player} ging mit Stil.",
       "{player} las das Sicherheitsblatt nicht."
     ],
+    "physical": [
+      "{player} verlor einen Nahkampf.",
+      "{player} nahm einen Treffer, ohne zu kontern.",
+      "{player} suchte den falschen Streit."
+    ],
     "fall": [
       "{player} wollte fliegen. Hat nicht geklappt.",
       "{player} glaubte an Schweben. Die Realitaet nicht.",
@@ -32,7 +37,17 @@
       "{player} versuchte das Meer zu trinken.",
       "{player} fand das tiefe Ende."
     ],
+    "drowning": [
+      "{player} vergass zu atmen.",
+      "{player} versuchte das Meer zu trinken.",
+      "{player} fand das tiefe Ende."
+    ],
     "void": [
+      "{player} fiel aus der Existenz.",
+      "{player} erforschte das Nichts.",
+      "{player} ist jetzt woanders."
+    ],
+    "out_of_world": [
       "{player} fiel aus der Existenz.",
       "{player} erforschte das Nichts.",
       "{player} ist jetzt woanders."
@@ -57,6 +72,16 @@
       "{player} haette das nicht probieren sollen.",
       "{player} lernte: Gruen ist nicht immer gut."
     ],
+    "command": [
+      "{player} wurde entfernt.",
+      "{player} traf ein unerwartetes Ende.",
+      "{player} verschwand aus dem Spiel."
+    ],
+    "environment": [
+      "{player} unterlag der Umgebung.",
+      "{player} wurde von der Welt erwischt.",
+      "{player} schaffte es nicht gegen die Gefahren."
+    ],
     "suffocation": [
       "{player} vergass, wie Waende funktionieren.",
       "{player} wurde eins mit dem Block.",
@@ -68,7 +93,7 @@
       "{player} haette eine Jacke gebraucht."
     ],
     "starvation": [
-      "{player} ließ das Essen aus. Fuer immer.",
+      "{player} liess das Essen aus. Fuer immer.",
       "{player} ging die Verpflegung aus.",
       "{player} lernte: Hunger ist toedlich."
     ]
