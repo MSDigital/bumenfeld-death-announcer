@@ -1,0 +1,27 @@
+﻿@DeathPanelBg = PatchStyle(TexturePath: "images/death_panel_bg.png");
+
+Group {
+  LayoutMode: Top;
+  Anchor: (Top: 72);
+
+  Group #DeathPanel {
+    Anchor: (Width: 629, Height: 167);
+    LayoutMode: Top;
+    Background: @DeathPanelBg;
+
+    Group #DeathIcon {
+      Anchor: (Left: 282.5, Width: 64, Height: 64);
+      Background: #ffffff(0);
+    }
+
+    Label #DeathTitle {
+      Text: "DEATH";
+      Style: (HorizontalAlignment: Center, VerticalAlignment: Center, FontSize: 28, Alignment: Center, TextColor: #dd0403, RenderBold: true);
+    }
+
+    Label #DeathSubtitle {
+      Text: "The void claims another victim.";
+      Style: (FontSize: 18, Alignment: Center, TextColor: #f8f9ff);
+    }
+  }
+}
