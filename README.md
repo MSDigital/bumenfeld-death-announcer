@@ -57,3 +57,7 @@ Settings modified through `/deathnotification config ...` are persisted automati
 1. The plugin auto-creates `config.yml` and localization overrides inside the data directory, making it easy to tweak strings without rebuilding.
 2. `/deathnotification test` is useful for QA - watch the HUD and chat output cycle through every cause every 2 seconds.
 3. Keep translation files synchronized and update `config.yml` defaults when adding new options so server operators have working templates.
+
+## 6. License
+Licensed under **MSDigital No-Resale License v1.0** (see `LICENSE`).
+**Attribution:** BlackJackV8 (MSDigital) — Official repo: <https://github.com/MSDigital/bumenfeld-death-announcer>
