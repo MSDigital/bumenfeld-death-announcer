@@ -73,6 +73,10 @@ repositories {
         name = "hytale-pre-release"
         url = uri("https://maven.hytale.com/pre-release")
     }
+    maven {
+        name = "hytale-mods"
+        url = uri("https://maven.hytale-mods.dev/releases")
+    }
 }
 
 val serverVersionProperty = project.findProperty("server_version")?.toString()?.takeIf { it.isNotBlank() }
@@ -125,6 +129,7 @@ dependencies {
 
     implementation(libs.snakeyaml)
     implementation(libs.jackson.databind)
+    compileOnly("com.buuz135:MultipleHUD:1.0.4")
 
     val enableHytalePlugin = project.findProperty("enable_hytale_plugin")?.toString()?.toBooleanStrictOrNull() ?: false
     if (enableHytalePlugin) {
