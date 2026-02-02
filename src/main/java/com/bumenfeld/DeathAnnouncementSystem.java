@@ -1,12 +1,12 @@
 package com.bumenfeld;
 
+import com.buuz135.mhud.MultipleHUD;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.entity.entities.player.hud.HudManager;
 import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
@@ -62,6 +62,7 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
     private static final String HUD_ICON_PREFIX = "icons/";
     private static final String NOTIFICATION_ICON_PREFIX = "ui/custom/icons/";
     private static final String FALLBACK_NOTIFICATION_ITEM = "Weapon_Sword_Mithril";
+    private static final String HUD_KEY = "BumenfeldDeathAnnouncer";
 
     private volatile long hudDisplaySeconds;
     private volatile boolean hudNotificationsEnabled;
@@ -359,31 +360,34 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
                         continue;
                     }
 
-                    HudManager hudManager = spectator.getHudManager();
-                    if (hudManager == null) {
+                    if (spectator.getHudManager() == null) {
                         continue;
                     }
 
-                    showDeathHud(world, hudManager, playerRef, safeTitle, safeSubtitle, safeIcon);
+                    showDeathHud(world, spectator, playerRef, safeTitle, safeSubtitle, safeIcon);
                 }
             });
         }
     }
 
     private void showDeathHud(World world,
-                              HudManager hudManager,
+                              Player player,
                               PlayerRef playerRef,
                               String titleText,
                               String subtitleText,
                               String iconTexturePath) {
-        if (world == null || hudManager == null || playerRef == null) {
+        if (world == null || playerRef == null || player == null) {
             return;
         }
 
         try {
             DeathNotificationHud hud = new DeathNotificationHud(playerRef, titleText, subtitleText, hudResourcePath, iconTexturePath);
-            hudManager.setCustomHud(playerRef, hud);
-            scheduleHudReset(world, hudManager, playerRef);
+            MultipleHUD multipleHUD = MultipleHUD.getInstance();
+            if (multipleHUD == null) {
+                return;
+            }
+            multipleHUD.setCustomHud(player, playerRef, HUD_KEY, hud);
+            scheduleHudReset(world, player, playerRef);
         } catch (RuntimeException ex) {
             String username = playerRef.getUsername();
             String identifier = username != null ? username : playerRef.getUuid().toString();
@@ -446,8 +450,8 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
         }
     }
 
-    private void scheduleHudReset(World world, HudManager hudManager, PlayerRef playerRef) {
-        if (world == null || hudManager == null || playerRef == null) {
+    private void scheduleHudReset(World world, Player player, PlayerRef playerRef) {
+        if (world == null || playerRef == null || player == null) {
             return;
         }
 
@@ -459,7 +463,13 @@ public final class DeathAnnouncementSystem extends DeathSystems.OnDeathSystem {
         AtomicReference<ScheduledFuture<?>> futureRef = new AtomicReference<>();
         long delaySeconds = Math.max(1L, hudDisplaySeconds);
         ScheduledFuture<?> future = hudResetScheduler.schedule(() -> {
-            world.execute(() -> hudManager.setCustomHud(playerRef, new HudClearHud(playerRef)));
+            world.execute(() -> {
+                MultipleHUD multipleHUD = MultipleHUD.getInstance();
+                if (multipleHUD == null) {
+                    return;
+                }
+                multipleHUD.hideCustomHud(player, HUD_KEY);
+            });
             hudResetTasks.remove(playerRef, futureRef.get());
         }, delaySeconds, TimeUnit.SECONDS);
         futureRef.set(future);
