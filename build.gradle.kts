@@ -113,14 +113,7 @@ fun formatManifestServerVersion(value: String?): String? {
     if (trimmed == "*") {
         return "*"
     }
-    if (trimmed.startsWithAny(listOf("<", ">", "=", "~", "^", "[", "(", "x", "X")) || trimmed.contains(" ")) {
-        return trimmed
-    }
-    return ">=$trimmed"
-}
-
-fun String.startsWithAny(prefixes: List<String>): Boolean {
-    return prefixes.any { this.startsWith(it) }
+    return trimmed
 }
 
 dependencies {

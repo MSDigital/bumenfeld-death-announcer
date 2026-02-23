@@ -2,6 +2,8 @@ package com.bumenfeld;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
+import com.hypixel.hytale.event.EventPriority;
+import com.hypixel.hytale.server.core.event.events.BootEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,6 +30,8 @@ public final class DeathAnnouncer extends JavaPlugin {
     protected void setup() {
         Path dataDirectory = getDataDirectory();
         ensureDefaultData(dataDirectory);
+        ExtractedAssetPackManifestEnsurer.ensure(this, LOGGER);
+        getEventRegistry().register(EventPriority.LAST, BootEvent.class, event -> ExtractedAssetPackManifestEnsurer.ensure(this, LOGGER));
         DeathAnnouncerConfig config = DeathAnnouncerConfig.load(dataDirectory);
         localizationManager = new LocalizationManager(dataDirectory);
         LocalizationBundle bundle = localizationManager.load(config.getLanguage());
