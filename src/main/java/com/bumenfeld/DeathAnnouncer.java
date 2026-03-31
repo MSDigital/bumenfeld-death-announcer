@@ -24,6 +24,7 @@ public final class DeathAnnouncer extends JavaPlugin {
 
     public DeathAnnouncer(JavaPluginInit init) {
         super(init);
+        ExtractedAssetPackManifestEnsurer.ensure(this, LOGGER);
     }
 
     @Override
